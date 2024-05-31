@@ -1,0 +1,81 @@
+@startuml
+interface IconFactory {
+  get_middle_icon()
+  get_leaf_icon()
+  get_array_icon()
+}
+
+class PokerFaceIconFactory {
+  get_middle_icon() : String
+  get_leaf_icon() : String
+  get_array_icon() : String
+}
+
+class FlowerIconFactory {
+  get_middle_icon() : String
+  get_leaf_icon() : String
+  get_array_icon() : String
+}
+
+class NullIconFactory {
+  get_middle_icon() : String
+  get_leaf_icon() : String
+  get_array_icon() : String
+}
+
+class myIconFactory {
+  -middle_icon : String
+  -leaf_icon : String
+  -array_icon : String
+  get_middle_icon() : String
+  get_leaf_icon() : String
+  get_array_icon() : String
+}
+
+interface JSONVisualizer {
+  display()
+}
+
+class TreeStyle {
+  -data : JSON
+  -icon_factory : IconFactory
+  display()
+}
+
+class LinearStyle {
+  -data : JSON
+  -icon_factory : IconFactory
+  display()
+}
+
+class JSONVisualizerBuilder {
+  -json_data : JSON
+  -style_factory : StyleFactory
+  -icon_factory : IconFactory
+  with_style_and_icon_factory(style_factory, icon_factory)
+  build()
+}
+
+interface StyleFactory {
+  create_visualizer(data : JSON, icon_factory : IconFactory) : JSONVisualizer
+}
+
+class TreeStyleFactory {
+  create_visualizer(data : JSON, icon_factory : IconFactory) : JSONVisualizer
+}
+
+class LinearStyleFactory {
+  create_visualizer(data : JSON, icon_factory : IconFactory) : JSONVisualizer
+}
+
+JSONVisualizer <|.. TreeStyle
+JSONVisualizer <|.. LinearStyle
+IconFactory <|.. PokerFaceIconFactory
+IconFactory <|.. FlowerIconFactory
+IconFactory <|.. NullIconFactory
+IconFactory <|.. myIconFactory
+StyleFactory <|.. TreeStyleFactory
+StyleFactory <|.. LinearStyleFactory
+JSONVisualizerBuilder *-- StyleFactory
+JSONVisualizerBuilder *-- IconFactory
+@enduml
