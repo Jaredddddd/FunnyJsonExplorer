@@ -27,6 +27,9 @@ class Tree_Leaf(TreeFactory):
     def display(self, level=0, is_last=False, arg_list=[]):
         icon = self.icon_factory.get_leaf_icon()
         prefix = ''
+
+        
+
         # 添加树形前缀
         for i in range(1, level):
             if i in arg_list:
@@ -42,6 +45,7 @@ class Tree_Leaf(TreeFactory):
             line = prefix + icon + ' ' + self.name + ': ' + str(self.value) + ' '
         print(line)
 
+
 class Tree_Node(TreeFactory):
     """
     树形结构的容器节点类，继承自 TreeFactory
@@ -50,10 +54,11 @@ class Tree_Node(TreeFactory):
         icon = self.icon_factory.get_middle_icon()
 
         # 处理树形前缀
+        if not is_last and level>0 and level not in arg_list:
+            arg_list.append(level)
         if is_last and level in arg_list:
             arg_list.remove(level)
-        if not is_last and level > 0:
-            arg_list.append(level)
+        
             
         if level > 0: # 根节点root不打印
             prefix = ''
