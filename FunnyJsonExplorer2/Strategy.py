@@ -17,24 +17,24 @@ class TreeStrategy(DisplayStrategy):
             icon = self.icon_factory.get_middle_icon()
         else:
             icon = self.icon_factory.get_leaf_icon()
+        if(level > 0):
+            prefix = ''
+            for i in range(1, level):
+                if i in arg_list:
+                    prefix += '│  '
+                else:
+                    prefix += '   '
+            prefix += '└─ ' if is_last else '├─ '
 
-        prefix = ''
-        for i in range(1, level):
-            if i in arg_list:
-                prefix += '│  '
-            else:
-                prefix += '   '
-        prefix += '└─ ' if is_last else '├─ '
+            line = prefix + icon + ' ' + node.name
+            if isinstance(node, Leaf) and node.value is not None:
+                line += ': ' + str(node.value)
+            print(line)
 
-        line = prefix + icon + ' ' + node.name
-        if isinstance(node, Leaf) and node.value is not None:
-            line += ': ' + str(node.value)
-        print(line)
-
-        if not is_last and level > 0 and level not in arg_list:
-            arg_list.append(level)
-        if is_last and level in arg_list:
-            arg_list.remove(level)
+            if not is_last and level > 0 and level not in arg_list:
+                arg_list.append(level)
+            if is_last and level in arg_list:
+                arg_list.remove(level)
 
     def displayEnd(self):
         return
